@@ -8,7 +8,6 @@ namespace TrulyApi.Repositorys
     public class QuotesRepository : IQuotesRepository
     {
         private readonly TrulyApiContext _context;
-
         public QuotesRepository(TrulyApiContext context)
         {
             _context = context;
@@ -23,13 +22,8 @@ namespace TrulyApi.Repositorys
 
         public async Task DeleteAsync(int id)
         {
-            var category = await GetAsync(id);
-
-            if (category is null)
-            {
-                throw new Exception($"{id} is not found.");
-            }
-            _context.Set<QuoteItem>().Remove(category);
+            var category = await GetAsync(id) ?? throw new Exception($"{id} is not found.");
+            _context.Quotes.Remove(category);
             await _context.SaveChangesAsync();
         }
 

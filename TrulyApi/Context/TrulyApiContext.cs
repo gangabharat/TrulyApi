@@ -11,7 +11,8 @@ namespace TrulyApi.Context
 
         }
 
-         public DbSet<QuoteItem> Quotes { get; set; } = default!;
+        public DbSet<QuoteItem> Quotes { get; set; } = default!;
+        public DbSet<CardItem> Cards { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

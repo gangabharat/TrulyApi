@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TrulyApi.Common;
 using TrulyApi.Context;
+using TrulyApi.Dtos;
 using TrulyApi.Dtos.Quote;
 using TrulyApi.Entities;
 using TrulyApi.Enum;
 using TrulyApi.Extensions;
+using TrulyApi.Services;
 
 namespace TrulyApi.Controllers
-{    
+{
     public class QuotesController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        public QuotesController(TrulyApiContext context)
+        private readonly IICsvFileBuilder _csvFileBuilder;
+        public QuotesController(TrulyApiContext context, IICsvFileBuilder csvFileBuilder)
         {
             _context = context;
+            _csvFileBuilder = csvFileBuilder;
         }
 
         [HttpGet]
@@ -22,7 +28,6 @@ namespace TrulyApi.Controllers
             return await _context.Quotes.PaginatedListAsync(query.PageNumber, query.PageSize);
         }
 
-        // GET: api/QuoteItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuoteItem>> GetQuoteItem(int id)
         {
@@ -50,19 +55,11 @@ namespace TrulyApi.Controllers
                 Rating = (RatingLevel)request.Rating,
                 ReferenceUrl = request.ReferenceUrl,
                 Tags = request.Tags,
-                Created = DateTime.UtcNow,
-                //CreatedBy = "user",
-                //LastModified = DateTime.UtcNow,
-                //LastModifiedBy ="user"
-
+                Created = DateTime.UtcNow
             };
-
-            //entity.AddDomainEvent(new QuoteItemCreatedEvent(entity));
             _context.Quotes.Add(entity);
 
             return await _context.SaveChangesAsync();
-
-
         }
 
         [HttpPut("{id}")]
@@ -78,7 +75,7 @@ namespace TrulyApi.Controllers
 
             if (entity == null)
             {
-                throw new Exception();
+                return NotFound();
             }
 
             entity.Title = request.Title;
@@ -98,7 +95,6 @@ namespace TrulyApi.Controllers
             return NoContent();
         }
 
-        // DELETE: api/QuoteItems/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuoteItem(int id)
         {
@@ -113,6 +109,32 @@ namespace TrulyApi.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("export")]
+        public async Task<ActionResult> Export()
+        {
+            var records = await _context.Quotes
+                .Select(x => new ExportQuoteItemRecord
+                {
+                    Title = x.Title,
+                    Author = x.Author,
+                    Comments = x.Comments,
+                    Note = x.Note,
+                    Rating = x.Rating == null ? 0 : (int)x.Rating,
+                    ReferenceUrl = x.ReferenceUrl,
+                    Source = x.Source,
+                    Tags = x.Tags
+                })
+                .ToListAsync();
+
+            var vm = new ExportFileVm(
+                $"{Guid.NewGuid()}.csv",
+                "text/csv",
+                _csvFileBuilder.BuildQuoteItemsFile(records)
+                );
+
+            return File(vm.Content, vm.ContentType, vm.FileName);
         }
     }
 }

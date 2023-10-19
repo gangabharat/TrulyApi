@@ -17,3 +17,29 @@
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+
+
+
+CREATE TABLE [dbo].[Cards](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+
+	[Name] [varchar](50) NOT NULL,
+	[Number] [varchar](50) NULL,
+	[Month] [int] NULL,
+	[Year] [int] NULL,
+	[CVV] [int] NULL,
+	[Key] [varchar](50) NULL,
+	[Bank] [varchar](50)  NULL,
+	[Tagline] [varchar](50)  NULL,
+	[Type] [varchar](50) NULL,
+	[Notes] [varchar](50)  NULL,
+
+	[Created] [DateTime] NULL,
+	[CreatedBy] [varchar](50)  NULL,
+	[LastModified] [DateTime]  NULL,
+	[LastModifiedBy] [varchar](50)  NULL,
+ CONSTRAINT [PK_Cards] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]

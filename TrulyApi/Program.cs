@@ -14,6 +14,7 @@ builder.Services.AddDbContext<TrulyApiContext>(options =>
 });
 
 //App Configuration
+builder.Services.AddInfrastructureServices();
 builder.Services.DepandancyInjectionConfig();
 
 
@@ -29,11 +30,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-app.UseSwagger();
-app.UseSwaggerUI();
+//app.UseSwagger();
+//app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
