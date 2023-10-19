@@ -1,0 +1,19 @@
+﻿CREATE TABLE [dbo].[Quotes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [varchar](50) NOT NULL,
+	[Note] [varchar](50) NULL,
+	[Rating] [int] NULL,
+	[Comments] [varchar](50) NULL,
+	[Source] [varchar](50)  NULL,
+	[Author] [varchar](50)  NULL,
+	[ReferenceUrl] [varchar](50) NULL,
+	[Tags] [varchar](50)  NULL,
+	[Created] [DateTime] NULL,
+	[CreatedBy] [varchar](50)  NULL,
+	[LastModified] [DateTime]  NULL,
+	[LastModifiedBy] [varchar](50)  NULL,
+ CONSTRAINT [PK_Quotes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]

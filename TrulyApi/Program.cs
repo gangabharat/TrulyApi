@@ -1,4 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+using TrulyApi.Configurations;
+using TrulyApi.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<TrulyApiContext>(options =>
+{
+    options.UseSqlServer(connectionString!);
+});
+
+//App Configuration
+builder.Services.DepandancyInjectionConfig();
+
 
 // Add services to the container.
 
@@ -12,9 +29,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

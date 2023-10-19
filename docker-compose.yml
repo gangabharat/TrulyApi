@@ -7,7 +7,8 @@ services:
       context: .
       dockerfile: TrulyApi/Dockerfile
     environment:      
-      - "ConnectionStrings__DefaultConnection=Server=db;Database=webappDb;User=sa;Password=Your_password123;MultipleActiveResultSets=true;Encrypt=False"      
+      - "ConnectionStrings__DefaultConnection=Server=db;Database=TrulyApiDb;User=sa;Password=Your_password123;MultipleActiveResultSets=true;Encrypt=False"      
+      - "IdentityServer__Key__Type=Development"
       - "ASPNETCORE_Kestrel__Certificates__Default__Password=Your_password123"
       - "ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx"
 
