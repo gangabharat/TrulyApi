@@ -10,7 +10,7 @@ namespace TrulyApi.Configurations
         public static void DepandancyInjectionConfig(this IServiceCollection services)
         {
             //Services Depandancy Injection
-            services.AddScoped(typeof(IICsvFileBuilder<>), typeof(CsvFileBuilder<>));
+            services.AddScoped(typeof(ICsvFileBuilder<>), typeof(CsvFileBuilder<>));
 
 
             //Repository Depandancy Injection

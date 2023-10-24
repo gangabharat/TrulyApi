@@ -15,8 +15,8 @@ namespace TrulyApi.Controllers
     public class QuotesController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        private readonly IICsvFileBuilder<ExportQuoteItemRecord> _csvFileBuilder;
-        public QuotesController(TrulyApiContext context, IICsvFileBuilder<ExportQuoteItemRecord> csvFileBuilder)
+        private readonly ICsvFileBuilder<ExportQuoteItemRecord> _csvFileBuilder;
+        public QuotesController(TrulyApiContext context, ICsvFileBuilder<ExportQuoteItemRecord> csvFileBuilder)
         {
             _context = context;
             _csvFileBuilder = csvFileBuilder;

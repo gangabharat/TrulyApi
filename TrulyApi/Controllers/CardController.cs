@@ -17,8 +17,8 @@ namespace TrulyApi.Controllers
     public class CardController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        private readonly IICsvFileBuilder<ExportCardItemRecord> _csvFileBuilder;
-        public CardController(TrulyApiContext context, IICsvFileBuilder<ExportCardItemRecord> csvFileBuilder)
+        private readonly ICsvFileBuilder<ExportCardItemRecord> _csvFileBuilder;
+        public CardController(TrulyApiContext context, ICsvFileBuilder<ExportCardItemRecord> csvFileBuilder)
         {
             _context = context;
             _csvFileBuilder = csvFileBuilder;

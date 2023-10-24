@@ -6,13 +6,13 @@ using TrulyApi.Dtos.Quote;
 namespace TrulyApi.Services
 {
 
-    public interface IICsvFileBuilder<T>
+    public interface ICsvFileBuilder<T>
     {
         byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records);
         byte[] BuilCardItemsFile(IEnumerable<ExportCardItemRecord> records);
         byte[] BuildFile(IEnumerable<T> records);
     }
-    public class CsvFileBuilder<T> : IICsvFileBuilder<T>
+    public class CsvFileBuilder<T> : ICsvFileBuilder<T>
     {
         public byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records)
         {
