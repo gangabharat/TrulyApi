@@ -6,12 +6,13 @@ using TrulyApi.Dtos.Quote;
 namespace TrulyApi.Services
 {
 
-    public interface IICsvFileBuilder
+    public interface IICsvFileBuilder<T>
     {
-        byte[] BuildQuoteItemsFile (IEnumerable<ExportQuoteItemRecord> records);
+        byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records);
         byte[] BuilCardItemsFile(IEnumerable<ExportCardItemRecord> records);
+        byte[] BuildFile(IEnumerable<T> records);
     }
-    public class CsvFileBuilder : IICsvFileBuilder
+    public class CsvFileBuilder<T> : IICsvFileBuilder<T>
     {
         public byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records)
         {
@@ -34,8 +35,24 @@ namespace TrulyApi.Services
             {
                 using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
 
+
                 //csvWriter.Context.RegisterClassMap<TodoItemRecordMap>();
                 csvWriter.WriteRecords(records);
+            }
+
+            return memoryStream.ToArray();
+        }
+
+
+        public byte[] BuildFile(IEnumerable<T> records)
+        {
+            using var memoryStream = new MemoryStream();
+            using (var streamWriter = new StreamWriter(memoryStream))
+            {
+                using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+                //csvWriter.WriteRecords(records);
+                csvWriter.WriteRecord(records);
+                //csvWriter.rea
             }
 
             return memoryStream.ToArray();

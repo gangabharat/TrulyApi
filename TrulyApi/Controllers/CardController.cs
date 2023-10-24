@@ -17,8 +17,8 @@ namespace TrulyApi.Controllers
     public class CardController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        private readonly IICsvFileBuilder _csvFileBuilder;
-        public CardController(TrulyApiContext context, IICsvFileBuilder csvFileBuilder)
+        private readonly IICsvFileBuilder<ExportCardItemRecord> _csvFileBuilder;
+        public CardController(TrulyApiContext context, IICsvFileBuilder<ExportCardItemRecord> csvFileBuilder)
         {
             _context = context;
             _csvFileBuilder = csvFileBuilder;
@@ -140,7 +140,8 @@ namespace TrulyApi.Controllers
             var vm = new ExportFileVm(
                 $"{Guid.NewGuid()}.csv",
                 "text/csv",
-                _csvFileBuilder.BuilCardItemsFile(records)
+                _csvFileBuilder.BuildFile(records)
+                //_csvFileBuilder.BuilCardItemsFile(records)
                 );
 
             return File(vm.Content, vm.ContentType, vm.FileName);
