@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using TrulyApi.Common;
 using TrulyApi.Context;
@@ -15,8 +16,8 @@ namespace TrulyApi.Controllers
     public class QuotesController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        private readonly ICsvFileBuilder<ExportQuoteItemRecord> _csvFileBuilder;
-        public QuotesController(TrulyApiContext context, ICsvFileBuilder<ExportQuoteItemRecord> csvFileBuilder)
+        private readonly ICsvFileBuilder _csvFileBuilder;
+        public QuotesController(TrulyApiContext context, ICsvFileBuilder csvFileBuilder)
         {
             _context = context;
             _csvFileBuilder = csvFileBuilder;
@@ -131,11 +132,11 @@ namespace TrulyApi.Controllers
             var vm = new ExportFileVm(
                 $"{Guid.NewGuid()}.csv",
                 "text/csv",
-                _csvFileBuilder.BuildFile(records)
-                //_csvFileBuilder.BuildQuoteItemsFile(records)
+                //_csvFileBuilder.BuildFile(records)
+                _csvFileBuilder.BuildQuoteItemsFile(records)
                 );
-
-            return File(vm.Content, vm.ContentType, vm.FileName);
+            //return FilterContext()
+            return File(vm.Content, vm.ContentType, $"CSV-{Guid.NewGuid()}.csv");
         }
     }
 }

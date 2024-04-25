@@ -1,24 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TrulyApi.Common;
 using TrulyApi.Context;
-using TrulyApi.Dtos.Quote;
 using TrulyApi.Dtos;
 using TrulyApi.Entities;
-using TrulyApi.Enum;
 using TrulyApi.Services;
 using TrulyApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using TrulyApi.Dtos.Card;
-using System.Reflection.Metadata;
-using Azure.Core;
 
 namespace TrulyApi.Controllers
 {
     public class CardController : ApiControllerBase
     {
         private readonly TrulyApiContext _context;
-        private readonly ICsvFileBuilder<ExportCardItemRecord> _csvFileBuilder;
-        public CardController(TrulyApiContext context, ICsvFileBuilder<ExportCardItemRecord> csvFileBuilder)
+        private readonly ICsvFileBuilder _csvFileBuilder;
+        public CardController(TrulyApiContext context, ICsvFileBuilder csvFileBuilder)
         {
             _context = context;
             _csvFileBuilder = csvFileBuilder;
@@ -140,8 +136,8 @@ namespace TrulyApi.Controllers
             var vm = new ExportFileVm(
                 $"{Guid.NewGuid()}.csv",
                 "text/csv",
-                _csvFileBuilder.BuildFile(records)
-                //_csvFileBuilder.BuilCardItemsFile(records)
+                //_csvFileBuilder.BuildFile(records)
+                _csvFileBuilder.BuilCardItemsFile(records)
                 );
 
             return File(vm.Content, vm.ContentType, vm.FileName);

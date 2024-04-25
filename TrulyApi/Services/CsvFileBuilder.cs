@@ -6,13 +6,13 @@ using TrulyApi.Dtos.Quote;
 namespace TrulyApi.Services
 {
 
-    public interface ICsvFileBuilder<T>
+    public interface ICsvFileBuilder
     {
         byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records);
         byte[] BuilCardItemsFile(IEnumerable<ExportCardItemRecord> records);
-        byte[] BuildFile(IEnumerable<T> records);
+        //byte[] BuildFile(IEnumerable<T> records);
     }
-    public class CsvFileBuilder<T> : ICsvFileBuilder<T>
+    public class CsvFileBuilder : ICsvFileBuilder
     {
         public byte[] BuildQuoteItemsFile(IEnumerable<ExportQuoteItemRecord> records)
         {
@@ -44,18 +44,18 @@ namespace TrulyApi.Services
         }
 
 
-        public byte[] BuildFile(IEnumerable<T> records)
-        {
-            using var memoryStream = new MemoryStream();
-            using (var streamWriter = new StreamWriter(memoryStream))
-            {
-                using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
-                //csvWriter.WriteRecords(records);
-                csvWriter.WriteRecord(records);
-                //csvWriter.rea
-            }
+        //public byte[] BuildFile(IEnumerable<T> records)
+        //{
+        //    using var memoryStream = new MemoryStream();
+        //    using (var streamWriter = new StreamWriter(memoryStream))
+        //    {
+        //        using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+        //        //csvWriter.WriteRecords(records);
+        //        csvWriter.WriteRecord(records);
+        //        //csvWriter.rea
+        //    }
 
-            return memoryStream.ToArray();
-        }
+        //    return memoryStream.ToArray();
+        //}
     }
 }
